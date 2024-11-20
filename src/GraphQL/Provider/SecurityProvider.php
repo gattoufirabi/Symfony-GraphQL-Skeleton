@@ -11,16 +11,17 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[GQL\Provider]
 class SecurityProvider
 {
     public function __construct(
-        private readonly FormFactoryInterface $formFactory,
-        private readonly UserRepository $userRepository,
+        private readonly FormFactoryInterface        $formFactory,
+        private readonly UserRepository              $userRepository,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly JWTTokenManagerInterface $JWTTokenManager,
+        private readonly JWTTokenManagerInterface    $JWTTokenManager,
     ){
     }
-    #[GQL\Mutation(name: 'login', type: 'Token')]
+    #[GQL\Mutation(name: 'login', type: 'Token', targetTypes: ['RootDefaultMutation'])]
     #[GQL\Arg(name: 'email', type: 'String!', description: 'The user email linked to his profile.')]
     #[GQL\Arg(name: 'password', type: 'String!', description: 'The user password linked to his email.')]
     public function login(string $email, string $password): array

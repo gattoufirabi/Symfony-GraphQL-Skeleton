@@ -11,7 +11,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 trait TimestampTrait
 {
     #[ORM\Column(name: "is_enabled", type: Types::BOOLEAN, nullable: false)]
-    #[GQL\Field(type: 'Bool')]
+    #[GQL\Field(type: 'Boolean')]
     public bool $isEnabled = true;
 
     #[ORM\Column(name: "is_deleted", type: Types::BOOLEAN, nullable: true)]

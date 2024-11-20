@@ -24,7 +24,7 @@ class UserRepository extends GlobalRepository implements PasswordUpgraderInterfa
         $qb = $this->createQueryBuilder('u');
 
         $qb->andWhere($qb->expr()->eq('u.email', ':email'))
-            ->andWhere($qb->expr()->eq('u.enabled', ':enabled'))
+            ->andWhere($qb->expr()->eq('u.isEnabled', ':enabled'))
             ->setParameter('email', $email)
             ->setParameter('enabled', true);
 
@@ -39,6 +39,49 @@ class UserRepository extends GlobalRepository implements PasswordUpgraderInterfa
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    public function getUsers(User $auth, $offset, $limit, $search)
+    {
+        $qb = $this->createQueryBuilder('user');
+
+        if ($search) {
+            $qb
+                ->orWhere($qb->expr()->like('UPPER(user.firstName)', ':name'))
+                ->orWhere($qb->expr()->like('UPPER(user.lastName)', ':name'))
+                ->orWhere('MATCH_AGAINST(user.firstName, user.lastName) AGAINST(:against boolean)>0')
+                ->setParameter('against', strtoupper($search))
+                ->setParameter('name', '%' . $search . '%');
+        }
+
+        $qb->addOrderBy('user.firstName', 'ASC');
+        $qb->addOrderBy('user.lastName', 'ASC');
+        $qb->groupBy('user.id');
+
+        if ($limit > 0) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $qb->setFirstResult($offset)
+            ->getQuery()// ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
+            ->getResult();
+    }
+
+    public function countAllByUser(User $auth, $search): ?int
+    {
+        $qb = $this->createQueryBuilder('user')
+            ->select('COUNT(user)');
+
+        if ($search) {
+            $qb
+                ->orWhere($qb->expr()->like('UPPER(user.firstName)', ':name'))
+                ->orWhere($qb->expr()->like('UPPER(user.lastName)', ':name'))
+                ->orWhere('MATCH_AGAINST(user.firstName, user.lastName) AGAINST(:against boolean)>0')
+                ->setParameter('against', strtoupper($search))
+                ->setParameter('name', '%' . $search . '%');
+        }
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     //    /**
