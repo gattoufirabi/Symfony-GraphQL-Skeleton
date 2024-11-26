@@ -15,7 +15,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity('email')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_UUID', fields: ['uuid'])]
-#[GQL\TypeInterface(resolveType: "@=query('auth_type_interface', value)", name: 'User')]
+#[GQL\TypeInterface(resolveType: "@=query('user_connection_resolver', value)", name: 'User')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

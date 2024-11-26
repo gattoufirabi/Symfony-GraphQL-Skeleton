@@ -67,7 +67,7 @@ class UserRepository extends GlobalRepository implements PasswordUpgraderInterfa
             ->getResult();
     }
 
-    public function countAllByUser(User $auth, $search): ?int
+    public function countAllByUser(User $auth): ?int
     {
         $qb = $this->createQueryBuilder('user')
             ->select('COUNT(user)');

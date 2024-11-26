@@ -13,6 +13,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Overblog\GraphQLBundle\Annotation as GQL;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Uid\Uuid;
 
 #[GQL\Provider]
 class SecurityProvider
@@ -78,6 +79,7 @@ class SecurityProvider
         }
 
         $user = new User();
+        $user->setUuid(Uuid::v4());
         $user->setEmail($request->getEmail());
         $user->setName($request->getName());
         $user->setPassword(
