@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b8733d8b-f704-4ac0-987b-fed69508e0ca" name="Serveur">
+        <fileTransfer accessType="SFTP" host="gattoufi.site" port="22" sshConfigId="0ab794f6-5eae-47f4-8260-31e203466ef0" sshConfig="ubuntu@gattoufi.site:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
