@@ -47,15 +47,13 @@ class UserRepository extends GlobalRepository implements PasswordUpgraderInterfa
 
         if ($search) {
             $qb
-                ->orWhere($qb->expr()->like('UPPER(user.firstName)', ':name'))
-                ->orWhere($qb->expr()->like('UPPER(user.lastName)', ':name'))
-                ->orWhere('MATCH_AGAINST(user.firstName, user.lastName) AGAINST(:against boolean)>0')
+                ->orWhere($qb->expr()->like('UPPER(user.name)', ':name'))
+                ->orWhere('MATCH_AGAINST(user.name) AGAINST(:against boolean)>0')
                 ->setParameter('against', strtoupper($search))
                 ->setParameter('name', '%' . $search . '%');
         }
 
-        $qb->addOrderBy('user.firstName', 'ASC');
-        $qb->addOrderBy('user.lastName', 'ASC');
+        $qb->addOrderBy('user.name', 'ASC');
         $qb->groupBy('user.id');
 
         if ($limit > 0) {

@@ -22,9 +22,8 @@ security:
             provider: default
         graphql:
             switch_user:
-                provider: user_switch
+                provider: default
                 parameter: "x-switch-user"
-                role: ROLE_CAN_SWITCH_USER
             pattern: ^/graphql
             stateless: true
             jwt:

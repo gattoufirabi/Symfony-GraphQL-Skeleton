@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Resolver;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
@@ -26,20 +27,12 @@ class UserResolver implements QueryInterface, AliasedInterface
     public static function getAliases(): array
     {
         return [
-            'resolveUsers' => 'user_connection_resolver',
+            'resolveUsers' => 'user_resolver',
         ];
     }
 
-    public function resolveUsers(Argument $args): Connection
+    public function resolveUsers(User $user): Connection
     {
-        $search = $args->getArrayCopy()['search'] ?? null;
-
-        $auth = $this->security->getUser();
-
-        $paginator = new Paginator(
-            fn ($offset, $limit) => $this->userRepository->getUsers($auth, $offset, $limit, $search)
-        );
-
-        return $paginator->auto($args, $this->userRepository->countAllByUser($auth, $search));
+        return $user;
     }
 }

@@ -1,23 +1,23 @@
 overblog_graphql:
-    batching_method: "apollo"
-    security:
-        handle_cors: true
-        enable_introspection: false
-        query_max_depth: 100
-    definitions:
-        schema:
-            default:
-                query: RootDefaultQuery
-                mutation: RootDefaultMutation
-        mappings:
-            auto_discover: true
-            types:
-                - type: yaml
-                  dir: "%kernel.project_dir%/config/graphql"
-                  suffix: ~
-                - type: attribute
-                  dir: "%kernel.project_dir%/src/Entity"
-                  suffix: ~
-                - type: attribute
-                  dir: "%kernel.project_dir%/src/GraphQL"
-                  suffix: ~
+  batching_method: "apollo"
+  security:
+    handle_cors: true
+    enable_introspection: true
+    query_max_depth: 100
+  definitions:
+    schema:
+      default:
+        query: RootDefaultQuery
+        mutation: RootDefaultMutation
+    mappings:
+      auto_discover: true
+      types:
+        - type: yaml
+          dir: "%kernel.project_dir%/config/graphql"
+          suffix: ~
+        - type: attribute
+          dir: "%kernel.project_dir%/src/Entity"
+          suffix: ~
+        - type: attribute
+          dir: "%kernel.project_dir%/src/GraphQL"
+          suffix: ~

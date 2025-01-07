@@ -34,18 +34,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null {
+        get {
+            return $this->id;
+        }
+    }
 
     #[ORM\Column(length: 180)]
     #[GQL\Field(type: 'ID!')]
-    private ?string $uuid = null;
+    private ?string $uuid {
+        get {
+            return $this->id;
+        }
+
+        set {
+            $this->uuid = $value;
+        }
+    }
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column(name: 'roles', type: Types::JSON)]
     #[GQL\Field(type: '[RoleEnum]!')]
-    private array $roles = [];
+    private array $roles {
+        set {
+            $this->roles = $value;
+        }
+        get {
+            return $this->roles;
+        }
+    }
 
     #[ORM\Column]
     #[GQL\Field(type: 'String')]
@@ -57,11 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getUuid(): ?string
     {
